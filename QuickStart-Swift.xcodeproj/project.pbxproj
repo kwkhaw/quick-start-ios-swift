@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		97EB34C71A1868BDA61EA3F1 /* libPods-QuickStart-Swift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F023D10BA255479D2D933874 /* libPods-QuickStart-Swift.a */; };
 		C83598E61B4C8F010050B21F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83598E51B4C8F010050B21F /* AppDelegate.swift */; };
-		C83598E81B4C8F010050B21F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83598E71B4C8F010050B21F /* ViewController.swift */; };
+		C83598E81B4C8F010050B21F /* LQSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83598E71B4C8F010050B21F /* LQSViewController.swift */; };
 		C83598EB1B4C8F010050B21F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C83598E91B4C8F010050B21F /* Main.storyboard */; };
 		C83598ED1B4C8F010050B21F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C83598EC1B4C8F010050B21F /* Images.xcassets */; };
 		C83598F01B4C8F010050B21F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C83598EE1B4C8F010050B21F /* LaunchScreen.xib */; };
 		C83598FC1B4C8F010050B21F /* QuickStart_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83598FB1B4C8F010050B21F /* QuickStart_SwiftTests.swift */; };
+		C89BDA9A1B4D7E4300D6AB37 /* LQSChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89BDA991B4D7E4300D6AB37 /* LQSChatMessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,16 +28,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A08DC430582E232D83747A8 /* Pods-QuickStart-Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickStart-Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickStart-Swift/Pods-QuickStart-Swift.release.xcconfig"; sourceTree = "<group>"; };
 		C83598E01B4C8F010050B21F /* QuickStart-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QuickStart-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C83598E41B4C8F010050B21F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C83598E51B4C8F010050B21F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C83598E71B4C8F010050B21F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C83598E71B4C8F010050B21F /* LQSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LQSViewController.swift; sourceTree = "<group>"; };
 		C83598EA1B4C8F010050B21F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C83598EC1B4C8F010050B21F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C83598EF1B4C8F010050B21F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		C83598F51B4C8F010050B21F /* QuickStart-SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QuickStart-SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C83598FA1B4C8F010050B21F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C83598FB1B4C8F010050B21F /* QuickStart_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStart_SwiftTests.swift; sourceTree = "<group>"; };
+		C83599071B4C93170050B21F /* QuickStart-Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QuickStart-Swift-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		C89BDA991B4D7E4300D6AB37 /* LQSChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LQSChatMessageCell.swift; sourceTree = "<group>"; };
+		F023D10BA255479D2D933874 /* libPods-QuickStart-Swift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickStart-Swift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDA6C2A9A3B2A4EB2A3344E7 /* Pods-QuickStart-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickStart-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickStart-Swift/Pods-QuickStart-Swift.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97EB34C71A1868BDA61EA3F1 /* libPods-QuickStart-Swift.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,12 +64,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3123FC79050381AB4895E28D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F023D10BA255479D2D933874 /* libPods-QuickStart-Swift.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C83598D71B4C8F010050B21F = {
 			isa = PBXGroup;
 			children = (
-				C83598E21B4C8F010050B21F /* QuickStart-Swift */,
+				C83598E21B4C8F010050B21F /* Code */,
 				C83598F81B4C8F010050B21F /* QuickStart-SwiftTests */,
 				C83598E11B4C8F010050B21F /* Products */,
+				D944E9025A4A8E3ADEEEC8D4 /* Pods */,
+				3123FC79050381AB4895E28D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,16 +92,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C83598E21B4C8F010050B21F /* QuickStart-Swift */ = {
+		C83598E21B4C8F010050B21F /* Code */ = {
 			isa = PBXGroup;
 			children = (
+				C83599051B4C92540050B21F /* Views */,
+				C83599061B4C92640050B21F /* Controllers */,
 				C83598E51B4C8F010050B21F /* AppDelegate.swift */,
-				C83598E71B4C8F010050B21F /* ViewController.swift */,
-				C83598E91B4C8F010050B21F /* Main.storyboard */,
 				C83598EC1B4C8F010050B21F /* Images.xcassets */,
 				C83598EE1B4C8F010050B21F /* LaunchScreen.xib */,
 				C83598E31B4C8F010050B21F /* Supporting Files */,
+				C83599071B4C93170050B21F /* QuickStart-Swift-Bridging-Header.h */,
 			);
+			name = Code;
 			path = "QuickStart-Swift";
 			sourceTree = "<group>";
 		};
@@ -112,6 +132,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C83599051B4C92540050B21F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C83598E91B4C8F010050B21F /* Main.storyboard */,
+				C89BDA991B4D7E4300D6AB37 /* LQSChatMessageCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		C83599061B4C92640050B21F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C83598E71B4C8F010050B21F /* LQSViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		D944E9025A4A8E3ADEEEC8D4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FDA6C2A9A3B2A4EB2A3344E7 /* Pods-QuickStart-Swift.debug.xcconfig */,
+				0A08DC430582E232D83747A8 /* Pods-QuickStart-Swift.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -119,9 +165,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C83598FF1B4C8F010050B21F /* Build configuration list for PBXNativeTarget "QuickStart-Swift" */;
 			buildPhases = (
+				7A398ACC4174410EE91F38FA /* Check Pods Manifest.lock */,
 				C83598DC1B4C8F010050B21F /* Sources */,
 				C83598DD1B4C8F010050B21F /* Frameworks */,
 				C83598DE1B4C8F010050B21F /* Resources */,
+				E1C4EE004B91F9E3AA44870A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -207,12 +255,46 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7A398ACC4174410EE91F38FA /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E1C4EE004B91F9E3AA44870A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickStart-Swift/Pods-QuickStart-Swift-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C83598DC1B4C8F010050B21F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C83598E81B4C8F010050B21F /* ViewController.swift in Sources */,
+				C83598E81B4C8F010050B21F /* LQSViewController.swift in Sources */,
+				C89BDA9A1B4D7E4300D6AB37 /* LQSChatMessageCell.swift in Sources */,
 				C83598E61B4C8F010050B21F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,7 +373,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -329,7 +411,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -338,21 +420,32 @@
 		};
 		C83599001B4C8F010050B21F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDA6C2A9A3B2A4EB2A3344E7 /* Pods-QuickStart-Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "QuickStart-Swift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QuickStart-Swift-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		C83599011B4C8F010050B21F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A08DC430582E232D83747A8 /* Pods-QuickStart-Swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "QuickStart-Swift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QuickStart-Swift-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -409,6 +502,7 @@
 				C83599011B4C8F010050B21F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C83599021B4C8F010050B21F /* Build configuration list for PBXNativeTarget "QuickStart-SwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +511,7 @@
 				C83599041B4C8F010050B21F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
