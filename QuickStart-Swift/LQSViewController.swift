@@ -234,7 +234,9 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         //If it is type image
         if messagePart.MIMEType == "image/png" {
             cell.messageLabel.text = "";
-            cell.updateWithImage(UIImage(data: messagePart.data)!)
+            if messagePart.data != nil {
+                cell.updateWithImage(UIImage(data: messagePart.data)!)
+            }
             
         } else {
             cell.removeImage() //just a safegaurd to ensure  that no image is present
