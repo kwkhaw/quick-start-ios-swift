@@ -136,7 +136,6 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
             if self.conversation == nil {
                 println("New Conversation creation failed: \(convError)")
             }
-//            conversations = layerClient!.executeQuery(query, error: &error)
         }
         
         if error == nil {
@@ -192,8 +191,6 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         if queryController == nil {
             return 0
         }
-//        let numberOfObjects = queryController!.numberOfObjectsInSection(UInt(section))
-//        return Int(numberOfObjects)
         let rows = queryController!.numberOfObjectsInSection(UInt(0))
         println("Rows \(rows)")
         return Int(rows)
@@ -466,11 +463,6 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
     // MARK: - Layer Object Change Notification Handler
 
     func didReceiveLayerObjectsDidChangeNotification(notification: NSNotification) {
-//        // For more information about Synchronization, check out https://developer.layer.com/docs/integration/ios#synchronization
-//        if self.conversation == nil || numberOfMessages() < 2 {
-//            fetchLayerConversation()
-//            tableView.reloadData() // FIXME: We don't need this line.
-//        }
         // Get nav bar colors from conversation metadata
         setNavbarColorFromConversationMetadata(conversation?.metadata)
         fetchLayerConversation()
@@ -487,8 +479,6 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
                 let ip: NSIndexPath = NSIndexPath(forRow: numberOfRowsInSection - 1, inSection: 0)
                 tableView.scrollToRowAtIndexPath(ip, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             }
-//            let ip: NSIndexPath = NSIndexPath(forRow: tableView.numberOfRowsInSection(0) - 1, inSection: 0)
-//            tableView.scrollToRowAtIndexPath(ip, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
         }
     }
 
