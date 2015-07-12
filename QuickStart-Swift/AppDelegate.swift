@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
             showFirstTimeMessage()
 
             // Initializes a LYRClient object
-            let appID = NSUUID(UUIDString: LQSLayerAppIDString)
+            let appID = NSURL(string: LQSLayerAppIDString)
             layerClient = LYRClient(appID: appID)
             layerClient.delegate = self
             layerClient.autodownloadMIMETypes = Set<NSObject>(arrayLiteral: "image/png")
@@ -200,7 +200,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
                 /*
                  * 2. Acquire identity Token from Layer Identity Service
                  */
-                self.requestIdentityTokenForUserID(userID, appID: layerClient.appID.UUIDString, nonce: nonce, completion: { (identityToken, error) in
+                self.requestIdentityTokenForUserID(userID, appID: layerClient.appID.absoluteString!, nonce: nonce, completion: { (identityToken, error) in
                     if identityToken.isEmpty {
                         completion(success: false, error: error)
                         return
