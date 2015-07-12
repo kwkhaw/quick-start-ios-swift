@@ -63,6 +63,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
             var alert = UIAlertController(title: "\u{1F625}", message: "To correctly use this project you need to replace LAYER_APP_ID in AppDelegate.swift (line 6) with your App ID from developer.layer.com.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { _ in abort() } ))
             presentViewController(alert, animated: true, completion: nil)
+            return
         }
         setupLayerNotificationObservers()
         fetchLayerConversation()
@@ -126,20 +127,33 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         query.sortDescriptors = [ NSSortDescriptor(key: "createdAt", ascending: false) ]
         
         var error: NSError? = nil
-        let conversations: NSOrderedSet? = layerClient?.executeQuery(query, error: &error)
-        if error != nil {
-            println("Query failed with error \(error)")
-            return
+        var conversations: NSOrderedSet? = layerClient?.executeQuery(query, error: &error)
+        
+
+        if conversations == nil || conversations!.count <= 0 {
+            var convError: NSError? = nil
+            self.conversation = layerClient!.newConversationWithParticipants(NSSet(array: [LQSParticipantUserID, LQSParticipant2UserID]) as Set<NSObject>, options: nil, error: &convError)
+            if self.conversation == nil {
+                println("New Conversation creation failed: \(convError)")
+            }
+//            conversations = layerClient!.executeQuery(query, error: &error)
         }
         
-        println("\(conversations!.count) conversations with participants \([ LQSCurrentUserID, LQSParticipantUserID, LQSParticipant2UserID ])")
+        if error == nil {
+            println("\(conversations!.count) conversations with participants \([ LQSCurrentUserID, LQSParticipantUserID, LQSParticipant2UserID ])")
+        } else {
+            println("Query failed with error \(error)")
+        }
+        
         
         // Retrieve the last conversation
         if conversations != nil && conversations!.count > 0 {
             self.conversation = conversations!.lastObject as! LYRConversation?
             println("Get last conversation object: \(conversation!.identifier)")
             // setup query controller with messages from last conversation
-            setupQueryController()
+            if queryController == nil {
+                setupQueryController()
+            }
         }
     }
 
@@ -163,19 +177,26 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
             println("Query failed with error: \(error)")
         }
         
-        // Mark all conversations as read on launch
+        tableView.reloadData()
         conversation!.markAllMessagesAsRead(nil)
     }
     
     // MARK:- Table View Data Source Methods
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return number of objects in queryController
         if queryController == nil {
             return 0
         }
-        let numberOfObjects = queryController!.numberOfObjectsInSection(UInt(section))
-        return Int(numberOfObjects)
+//        let numberOfObjects = queryController!.numberOfObjectsInSection(UInt(section))
+//        return Int(numberOfObjects)
+        let rows = queryController!.numberOfObjectsInSection(UInt(0))
+        println("Rows \(rows)")
+        return Int(rows)
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -221,7 +242,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         }
         var timestampText = ""
         
-        // If the message was sent by current user, show Receipent Status Indicators
+        // If the message was sent by current user, show Receipent Status Indicator
         if message!.sender.userID == LQSCurrentUserID {
             switch message!.recipientStatusForUserID(LQSParticipantUserID) {
                 case LYRRecipientStatus.Sent:
@@ -247,7 +268,11 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
             timestampText = "Received: \(dateFormatter.stringFromDate(message!.sentAt))"
         }
         
-        cell.deviceLabel.text = "\(message!.sender.userID) @ \(timestampText)"
+        if message!.sender.userID != nil {
+            cell.deviceLabel.text = "\(message!.sender.userID) @ \(timestampText)"
+        }else {
+            cell.deviceLabel.text = "Platform @ \(timestampText)"
+        }
     }
 
     // MARK - Receiving Typing Indicator
@@ -288,11 +313,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         messageImage.image = nil
         // If no conversations exist, create a new conversation object with a single participant
         if self.conversation == nil {
-            var error: NSError? = nil
-            conversation = layerClient?.newConversationWithParticipants(NSSet(array: [ LQSParticipantUserID, LQSParticipant2UserID  ]) as Set<NSObject>, options: nil, error: &error)
-            if (self.conversation == nil) {
-                println("New Conversation creation failed: \(error)")
-            }
+            fetchLayerConversation()
         }
         
         //if we are sending an image
@@ -322,6 +343,10 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
             println("Message send failed: \(error)")
         }
         self.photo = nil
+        
+        if queryController == nil {
+            setupQueryController()
+        }
     }
 
     // MARK: - Set up for Shake
@@ -439,13 +464,14 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
     // MARK: - Layer Object Change Notification Handler
 
     func didReceiveLayerObjectsDidChangeNotification(notification: NSNotification) {
-        // For more information about Synchronization, check out https://developer.layer.com/docs/integration/ios#synchronization
-        if self.conversation == nil || numberOfMessages() < 2 {
-            fetchLayerConversation()
-            tableView.reloadData() // FIXME: We don't need this line.
-        }
+//        // For more information about Synchronization, check out https://developer.layer.com/docs/integration/ios#synchronization
+//        if self.conversation == nil || numberOfMessages() < 2 {
+//            fetchLayerConversation()
+//            tableView.reloadData() // FIXME: We don't need this line.
+//        }
         // Get nav bar colors from conversation metadata
         setNavbarColorFromConversationMetadata(conversation?.metadata)
+        fetchLayerConversation()
     }
 
     // MARK: - General Helper Methods
@@ -459,6 +485,8 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
                 let ip: NSIndexPath = NSIndexPath(forRow: numberOfRowsInSection - 1, inSection: 0)
                 tableView.scrollToRowAtIndexPath(ip, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             }
+//            let ip: NSIndexPath = NSIndexPath(forRow: tableView.numberOfRowsInSection(0) - 1, inSection: 0)
+//            tableView.scrollToRowAtIndexPath(ip, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
         }
     }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BHH-sb-d81">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -28,17 +27,21 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FHy-kD-xBS" id="a14-Ep-wRj">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simulator" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozN-Z1-exn">
-                                                    <rect key="frame" x="8" y="8" width="49" height="14.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Simulator" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozN-Z1-exn">
+                                                    <rect key="frame" x="8" y="8" width="49" height="15"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cgn-kD-MDn">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cgn-kD-MDn">
                                                     <rect key="frame" x="335" y="0.0" width="25" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="4pv-v6-InO"/>
+                                                        <constraint firstAttribute="width" constant="25" id="Qeo-kz-uvd"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Labelsdfdsadfdsfdsfdsfdsafadsfdsfdsafdafdfds" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8m-N7-a66">
-                                                    <rect key="frame" x="8" y="22" width="333" height="40.5"/>
+                                                    <rect key="frame" x="8" y="22" width="333" height="41"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -52,11 +55,14 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="cgn-kD-MDn" firstAttribute="trailing" secondItem="a14-Ep-wRj" secondAttribute="trailingMargin" id="4Sx-Ly-9lF"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="oZN-ZS-YMI" secondAttribute="trailing" constant="-8" id="9Y8-M0-rG5"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="k8m-N7-a66" secondAttribute="trailing" constant="26" id="GgA-hY-Dw3"/>
                                                 <constraint firstItem="oZN-ZS-YMI" firstAttribute="leading" secondItem="a14-Ep-wRj" secondAttribute="leadingMargin" constant="-8" id="Uzh-S4-Kh4"/>
                                                 <constraint firstItem="k8m-N7-a66" firstAttribute="top" secondItem="ozN-Z1-exn" secondAttribute="bottom" id="Wpo-bi-fTX"/>
                                                 <constraint firstItem="ozN-Z1-exn" firstAttribute="leading" secondItem="a14-Ep-wRj" secondAttribute="leadingMargin" id="Ybw-pc-3h8"/>
+                                                <constraint firstItem="k8m-N7-a66" firstAttribute="top" secondItem="cgn-kD-MDn" secondAttribute="bottom" constant="7" id="ccm-wr-ojQ"/>
+                                                <constraint firstItem="cgn-kD-MDn" firstAttribute="top" secondItem="a14-Ep-wRj" secondAttribute="top" id="qI1-T3-T5Q"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="oZN-ZS-YMI" secondAttribute="bottom" constant="-7" id="ugF-Gj-2Tv"/>
                                                 <constraint firstItem="ozN-Z1-exn" firstAttribute="top" secondItem="a14-Ep-wRj" secondAttribute="topMargin" id="utL-qq-gf3"/>
                                                 <constraint firstItem="k8m-N7-a66" firstAttribute="leading" secondItem="a14-Ep-wRj" secondAttribute="leadingMargin" id="xqU-1E-i0P"/>
@@ -77,8 +83,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xhh-g0-9b3" userLabel="Message Container">
                                 <rect key="frame" x="0.0" y="584" width="375" height="85"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Simulator is Typing..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i3a-3A-7F4">
-                                        <rect key="frame" x="0.0" y="-584" width="89" height="12"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Simulator is Typing..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i3a-3A-7F4">
+                                        <rect key="frame" x="0.0" y="2" width="94" height="12"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="10"/>
                                         <nil key="highlightedColor"/>
