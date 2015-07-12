@@ -27,13 +27,13 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FHy-kD-xBS" id="a14-Ep-wRj">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Simulator" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozN-Z1-exn">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simulator" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozN-Z1-exn">
                                                     <rect key="frame" x="8" y="8" width="49" height="15"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cgn-kD-MDn">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cgn-kD-MDn">
                                                     <rect key="frame" x="335" y="0.0" width="25" height="15"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="4pv-v6-InO"/>
@@ -55,11 +55,11 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="cgn-kD-MDn" firstAttribute="trailing" secondItem="a14-Ep-wRj" secondAttribute="trailingMargin" id="4Sx-Ly-9lF"/>
+                                                <constraint firstItem="cgn-kD-MDn" firstAttribute="trailing" secondItem="a14-Ep-wRj" secondAttribute="trailingMargin" constant="-7" id="4Sx-Ly-9lF"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="oZN-ZS-YMI" secondAttribute="trailing" constant="-8" id="9Y8-M0-rG5"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="k8m-N7-a66" secondAttribute="trailing" constant="26" id="GgA-hY-Dw3"/>
                                                 <constraint firstItem="oZN-ZS-YMI" firstAttribute="leading" secondItem="a14-Ep-wRj" secondAttribute="leadingMargin" constant="-8" id="Uzh-S4-Kh4"/>
-                                                <constraint firstItem="k8m-N7-a66" firstAttribute="top" secondItem="ozN-Z1-exn" secondAttribute="bottom" id="Wpo-bi-fTX"/>
+                                                <constraint firstItem="k8m-N7-a66" firstAttribute="top" secondItem="ozN-Z1-exn" secondAttribute="bottom" constant="-1" id="Wpo-bi-fTX"/>
                                                 <constraint firstItem="ozN-Z1-exn" firstAttribute="leading" secondItem="a14-Ep-wRj" secondAttribute="leadingMargin" id="Ybw-pc-3h8"/>
                                                 <constraint firstItem="k8m-N7-a66" firstAttribute="top" secondItem="cgn-kD-MDn" secondAttribute="bottom" constant="7" id="ccm-wr-ojQ"/>
                                                 <constraint firstItem="cgn-kD-MDn" firstAttribute="top" secondItem="a14-Ep-wRj" secondAttribute="top" id="qI1-T3-T5Q"/>
@@ -90,7 +90,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Hey De Vice, this is your friend, Simul Ator." translatesAutoresizingMaskIntoConstraints="NO" id="x2f-qv-AD7" userLabel="Message Text Input">
-                                        <rect key="frame" x="0.0" y="19" width="320" height="64"/>
+                                        <rect key="frame" x="60" y="19" width="260" height="64"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="64" id="v6J-Ot-Ysr"/>
                                         </constraints>
@@ -119,18 +119,31 @@
                                             <action selector="sendMessageAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="d4g-Tu-eMi"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oyp-6z-xsd">
+                                        <rect key="frame" x="13" y="41" width="25" height="22"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" image="Camera">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cameraButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="DhA-2o-5Lc"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="fXu-E3-7zc" firstAttribute="leading" secondItem="x2f-qv-AD7" secondAttribute="trailing" constant="8" id="5V4-jG-5Su"/>
                                     <constraint firstAttribute="bottom" secondItem="x2f-qv-AD7" secondAttribute="bottom" constant="2" id="6qy-Xc-36z"/>
+                                    <constraint firstItem="oyp-6z-xsd" firstAttribute="leading" secondItem="xhh-g0-9b3" secondAttribute="leading" constant="13" id="IWD-FP-dpA"/>
+                                    <constraint firstItem="x2f-qv-AD7" firstAttribute="leading" secondItem="oyp-6z-xsd" secondAttribute="trailing" constant="22" id="Kod-Ya-0ZZ"/>
                                     <constraint firstAttribute="centerX" secondItem="zay-pC-pn2" secondAttribute="centerX" id="aFf-cp-Xu8"/>
                                     <constraint firstAttribute="bottom" secondItem="fXu-E3-7zc" secondAttribute="bottom" id="c58-qn-4jH"/>
                                     <constraint firstAttribute="bottom" secondItem="zay-pC-pn2" secondAttribute="bottom" constant="8" id="gHl-iZ-WCB"/>
                                     <constraint firstItem="fXu-E3-7zc" firstAttribute="top" secondItem="xhh-g0-9b3" secondAttribute="top" constant="19" id="nPe-uB-pOx"/>
+                                    <constraint firstAttribute="bottom" secondItem="oyp-6z-xsd" secondAttribute="bottom" constant="22" id="upH-i9-JN0"/>
                                     <constraint firstItem="x2f-qv-AD7" firstAttribute="top" secondItem="xhh-g0-9b3" secondAttribute="top" constant="19" id="v3K-YW-7OH"/>
                                     <constraint firstAttribute="trailing" secondItem="fXu-E3-7zc" secondAttribute="trailing" constant="8" id="vxO-UI-KNY"/>
-                                    <constraint firstItem="x2f-qv-AD7" firstAttribute="leading" secondItem="xhh-g0-9b3" secondAttribute="leading" id="znB-WI-Lx1"/>
+                                    <constraint firstItem="x2f-qv-AD7" firstAttribute="leading" secondItem="xhh-g0-9b3" secondAttribute="leading" constant="60" id="znB-WI-Lx1"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -146,10 +159,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="rxu-e0-JTl">
-                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="8sZ-DA-BPw">
-                            <connections>
-                                <action selector="cameraButtonPressed:" destination="vXZ-lx-hvc" id="7k9-se-wKb"/>
-                            </connections>
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="9zL-1F-3e2">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Adj-2V-3n6">
+                                <rect key="frame" x="16" y="2" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" image="Announcements">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Clear" id="4Lg-lX-2C2">
                             <connections>
@@ -186,6 +204,10 @@
             <point key="canvasLocation" x="-288" y="221"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Announcements" width="35" height="39"/>
+        <image name="Camera" width="25" height="18"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
