@@ -97,6 +97,10 @@ class LQSAnnouncementsTableViewController: UITableViewController, UIAlertViewDel
         return cell!
     }
 
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 90
+    }
+
 
 // MARK: - Query controller delegate implementation
 
