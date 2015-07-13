@@ -586,4 +586,15 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         dismissViewControllerAnimated(true, completion: nil)
         self.sendingImage = false
     }
+    
+    //  MARK: - Segue method
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if sender?.isKindOfClass(UIButton.self) != nil {
+            if segue.destinationViewController.isKindOfClass(LQSAnnouncementsTableViewController.self) {
+                let anncementsController: LQSAnnouncementsTableViewController = segue.destinationViewController as! LQSAnnouncementsTableViewController
+                anncementsController.layerClient = layerClient
+            }
+        }
+    }
 }

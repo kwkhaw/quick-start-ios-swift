@@ -14,6 +14,8 @@
 		C83598ED1B4C8F010050B21F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C83598EC1B4C8F010050B21F /* Images.xcassets */; };
 		C83598F01B4C8F010050B21F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C83598EE1B4C8F010050B21F /* LaunchScreen.xib */; };
 		C83598FC1B4C8F010050B21F /* QuickStart_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83598FB1B4C8F010050B21F /* QuickStart_SwiftTests.swift */; };
+		C862CDD11B53ECA300BFBA1E /* LQSAnnouncementsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862CDD01B53ECA300BFBA1E /* LQSAnnouncementsTableViewController.swift */; };
+		C862CDD31B54082200BFBA1E /* LQSAnnouncementsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C862CDD21B54082200BFBA1E /* LQSAnnouncementsTableViewCell.swift */; };
 		C89BDA9A1B4D7E4300D6AB37 /* LQSChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89BDA991B4D7E4300D6AB37 /* LQSChatMessageCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +42,8 @@
 		C83598FA1B4C8F010050B21F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C83598FB1B4C8F010050B21F /* QuickStart_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStart_SwiftTests.swift; sourceTree = "<group>"; };
 		C83599071B4C93170050B21F /* QuickStart-Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QuickStart-Swift-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		C862CDD01B53ECA300BFBA1E /* LQSAnnouncementsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LQSAnnouncementsTableViewController.swift; sourceTree = "<group>"; };
+		C862CDD21B54082200BFBA1E /* LQSAnnouncementsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LQSAnnouncementsTableViewCell.swift; sourceTree = "<group>"; };
 		C89BDA991B4D7E4300D6AB37 /* LQSChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LQSChatMessageCell.swift; sourceTree = "<group>"; };
 		F023D10BA255479D2D933874 /* libPods-QuickStart-Swift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuickStart-Swift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDA6C2A9A3B2A4EB2A3344E7 /* Pods-QuickStart-Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickStart-Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickStart-Swift/Pods-QuickStart-Swift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 			children = (
 				C83598E91B4C8F010050B21F /* Main.storyboard */,
 				C89BDA991B4D7E4300D6AB37 /* LQSChatMessageCell.swift */,
+				C862CDD21B54082200BFBA1E /* LQSAnnouncementsTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				C83598E71B4C8F010050B21F /* LQSViewController.swift */,
+				C862CDD01B53ECA300BFBA1E /* LQSAnnouncementsTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -294,6 +300,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C83598E81B4C8F010050B21F /* LQSViewController.swift in Sources */,
+				C862CDD31B54082200BFBA1E /* LQSAnnouncementsTableViewCell.swift in Sources */,
+				C862CDD11B53ECA300BFBA1E /* LQSAnnouncementsTableViewController.swift in Sources */,
 				C89BDA9A1B4D7E4300D6AB37 /* LQSChatMessageCell.swift in Sources */,
 				C83598E61B4C8F010050B21F /* AppDelegate.swift in Sources */,
 			);

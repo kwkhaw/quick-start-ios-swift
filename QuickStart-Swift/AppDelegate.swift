@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
             layerClient = LYRClient(appID: appID)
             layerClient.delegate = self
             layerClient.autodownloadMIMETypes = Set<NSObject>(arrayLiteral: "image/png")
+            
             // Connect to Layer
             // See "Quick Start - Connect" for more details
             // https://developer.layer.com/docs/quick-start/ios#connect
@@ -130,9 +131,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
 
     func messageFromRemoteNotification(remoteNotification: NSDictionary?) -> LYRMessage {
         let LQSPushMessageIdentifierKeyPath = "layer.message_identifier"
+        let LQSPushAnnouncementIdentifierKeyPath = "layer.announcement_identifier"
         
         // Retrieve message URL from Push Notification
-        let messageURL = NSURL(string: remoteNotification!.valueForKeyPath(LQSPushMessageIdentifierKeyPath) as! String)
+        var messageURL = NSURL(string: remoteNotification!.valueForKeyPath(LQSPushMessageIdentifierKeyPath) as! String)
+        if messageURL == nil {
+            messageURL = NSURL(string: remoteNotification!.valueForKeyPath(LQSPushAnnouncementIdentifierKeyPath) as! String)
+        }
         
         // Retrieve LYRMessage from Message URL
         let query: LYRQuery = LYRQuery(queryableClass: LYRMessage.self)
