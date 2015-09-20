@@ -3,7 +3,7 @@ import UIKit
 /**
  Layer App ID from developer.layer.com
  */
-let LQSLayerAppIDString = "LAYER_APP_ID"
+let LQSLayerAppIDString = ""
 
 #if arch(i386) || arch(x86_64) // Simulator
     
@@ -49,13 +49,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
             // https://developer.layer.com/docs/quick-start/ios#connect
             layerClient.connectWithCompletion() { (success: Bool, error: NSError?) in
                 if !success {
-                    println("Failed to connect to Layer: \(error)")
+                    print("Failed to connect to Layer: \(error)")
                 } else {
                     self.authenticateLayerWithUserID(LQSCurrentUserID) { (success: Bool, error: NSError?) in
                         if !success {
-                            println("Failed Authenticating Layer Client with error:\(error)")
+                            print("Failed Authenticating Layer Client with error:\(error)")
                         } else {
-                            println("successfully authenticated")
+                            print("successfully authenticated")
                         }
                     }
                 }
@@ -78,16 +78,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
         // For more information about Push, check out:
         // https://developer.layer.com/docs/guides/ios#push-notification
         
-        // Checking if app is running iOS 8
-        if (application.respondsToSelector("registerForRemoteNotifications")) {
-            // Register device for iOS8
-            let notificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, categories: nil)
-            application.registerUserNotificationSettings(notificationSettings)
-            application.registerForRemoteNotifications()
-        } else {
-            // Register device for iOS7
-            application.registerForRemoteNotificationTypes(UIRemoteNotificationType.Alert | UIRemoteNotificationType.Sound | UIRemoteNotificationType.Badge)
-        }
+        // Register device for iOS8
+        let notificationSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: nil)
+        application.registerUserNotificationSettings(notificationSettings)
+        application.registerForRemoteNotifications()
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -95,36 +89,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
         // For more information about Push, check out:
         // https://developer.layer.com/docs/guides/ios#push-notification
         var error: NSError?
-        let success = layerClient!.updateRemoteNotificationDeviceToken(deviceToken, error: &error)
+        let success: Bool
+        do {
+            try layerClient!.updateRemoteNotificationDeviceToken(deviceToken)
+            success = true
+        } catch let error1 as NSError {
+            error = error1
+            success = false
+        }
         if (success) {
-            println("Application did register for remote notifications: \(deviceToken)")
+            print("Application did register for remote notifications: \(deviceToken)")
         } else {
-            println("Failed updating device token with error: \(error)")
+            print("Failed updating device token with error: \(error)")
         }
     }
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         // Get Message from Metadata
-        var message: LYRMessage = messageFromRemoteNotification(userInfo)
+// Why never use?        var message: LYRMessage = messageFromRemoteNotification(userInfo)
         
-        var error: NSError?
         let success = layerClient!.synchronizeWithRemoteNotification(userInfo, completion: { (changes, error) in
             if (changes != nil) {
                 if (changes!.count > 0) {
-                    message = self.messageFromRemoteNotification(userInfo)
+// Why never use?                    message = self.messageFromRemoteNotification(userInfo)
                     completionHandler(UIBackgroundFetchResult.NewData)
                 } else {
                     completionHandler(UIBackgroundFetchResult.NoData)
                 }
             } else {
-                completionHandler(UIBackgroundFetchResult.Failed)
+                if error != nil {
+                    print("Failed processing push notification with error: \(error)")
+                    completionHandler(UIBackgroundFetchResult.NoData)
+                } else {
+                    completionHandler(UIBackgroundFetchResult.Failed)
+                }
             }
         })
         
         if (success) {
-            println("Application did complete remote notification sync")
+            print("Application did complete remote notification sync")
         } else {
-            println("Failed processing push notification with error: \(error)")
             completionHandler(UIBackgroundFetchResult.NoData)
         }
     }
@@ -144,14 +148,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
         query.predicate = LYRPredicate(property: "identifier", predicateOperator: LYRPredicateOperator.IsIn, value: NSSet(object: messageURL!))
         
         var error: NSError?
-        let messages: NSOrderedSet? = self.layerClient!.executeQuery(query, error: &error)
+        let messages: NSOrderedSet?
+        do {
+            messages = try self.layerClient!.executeQuery(query)
+        } catch let error1 as NSError {
+            error = error1
+            messages = nil
+        }
         if (error == nil) {
-            println("Query contains \(messages!.count) messages")
+            print("Query contains \(messages!.count) messages")
             let message: LYRMessage = messages!.firstObject as! LYRMessage
             let messagePart: LYRMessagePart = message.parts[0] as! LYRMessagePart
-            println("Pushed Message Contents: \(NSString(data: messagePart.data, encoding: NSUTF8StringEncoding))")
+            print("Pushed Message Contents: \(NSString(data: messagePart.data, encoding: NSUTF8StringEncoding))")
         } else {
-            println("Query failed with error \(error)")
+            print("Query failed with error \(error)")
         }
         
         return messages!.firstObject as! LYRMessage
@@ -184,7 +194,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
     func authenticateLayerWithUserID(userID: String, completion: ((success: Bool, error: NSError?) -> Void)) {
         if let layerClient = layerClient {
             if layerClient.authenticatedUserID != nil {
-                println("Layer Authenticated as User \(layerClient.authenticatedUserID)")
+                print("Layer Authenticated as User \(layerClient.authenticatedUserID)")
                 completion(success: true, error: nil)
                 return
             }
@@ -205,7 +215,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
                 /*
                  * 2. Acquire identity Token from Layer Identity Service
                  */
-                self.requestIdentityTokenForUserID(userID, appID: layerClient.appID.absoluteString!, nonce: nonce, completion: { (identityToken, error) in
+                self.requestIdentityTokenForUserID(userID, appID: layerClient.appID.absoluteString, nonce: nonce, completion: { (identityToken, error) in
                     if identityToken.isEmpty {
                         completion(success: false, error: error)
                         return
@@ -217,7 +227,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
                     layerClient.authenticateWithIdentityToken(identityToken, completion: { (authenticatedUserID, error) in
                         if !authenticatedUserID.isEmpty {
                             completion(success: true, error: nil)
-                            println("Layer Authenticated as User: \(authenticatedUserID)")
+                            print("Layer Authenticated as User: \(authenticatedUserID)")
                         } else {
                             completion(success: false, error: error)
                         }
@@ -235,7 +245,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         let parameters = ["app_id": appID, "user_id": userID, "nonce": nonce]
-        let requestBody: NSData? = NSJSONSerialization.dataWithJSONObject(parameters, options: nil, error: nil)
+        let requestBody: NSData? = try? NSJSONSerialization.dataWithJSONObject(parameters, options: [])
         request.HTTPBody = requestBody
         
         let sessionConfiguration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
@@ -247,9 +257,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
             }
             
             // Deserialize the response
-            let responseObject: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as! NSDictionary
+            let responseObject: NSDictionary = (try! NSJSONSerialization.JSONObjectWithData(data!, options: [])) as! NSDictionary
             if responseObject.valueForKey("error") == nil {
-                var identityToken = responseObject["identity_token"] as! String?
+                let identityToken = responseObject["identity_token"] as! String?
                 let token: String = (identityToken != nil) ? identityToken! : ""
                 completion(identityToken: token, error: nil);
             } else {
@@ -258,7 +268,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
                 let userInfo = [ NSLocalizedDescriptionKey: "Layer Identity Provider Returned an Error.",
                                  NSLocalizedRecoverySuggestionErrorKey: "There may be a problem with your APPID." ]
                
-                var error: NSError = NSError(domain: domain, code: code!, userInfo: userInfo)
+                let error: NSError = NSError(domain: domain, code: code!, userInfo: userInfo)
                 completion(identityToken: "", error: error)
             }
         }).resume()
@@ -267,39 +277,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, LYRClientDelegate {
     // - MARK LYRClientDelegate Delegate Methods
 
     func layerClient(client: LYRClient, didReceiveAuthenticationChallengeWithNonce nonce: String) {
-        println("Layer Client did recieve authentication challenge with nonce: \(nonce)")
+        print("Layer Client did recieve authentication challenge with nonce: \(nonce)")
     }
 
     func layerClient(client: LYRClient, didAuthenticateAsUserID userID: String) {
-        println("Layer Client did recieve authentication nonce")
+        print("Layer Client did recieve authentication nonce")
     }
 
     func layerClientDidDeauthenticate(client: LYRClient) {
-        println("Layer Client did deauthenticate")
+        print("Layer Client did deauthenticate")
     }
 
     func layerClient(client: LYRClient, didFinishSynchronizationWithChanges changes: [AnyObject]) {
-        println("Layer Client did finish sychronization")
+        print("Layer Client did finish sychronization")
     }
 
     func layerClient(client: LYRClient, didFailSynchronizationWithError error: NSError) {
-        println("Layer Client did fail synchronization with error: \(error)")
+        print("Layer Client did fail synchronization with error: \(error)")
     }
 
     func layerClient(client: LYRClient, willAttemptToConnect attemptNumber: UInt, afterDelay delayInterval: NSTimeInterval, maximumNumberOfAttempts attemptLimit: UInt) {
-        println("Layer Client will attempt to connect")
+        print("Layer Client will attempt to connect")
     }
 
     func layerClientDidConnect(client: LYRClient) {
-        println("Layer Client did connect")
+        print("Layer Client did connect")
     }
 
     func layerClient(client: LYRClient, didLoseConnectionWithError error: NSError) {
-        println("Layer Client did lose connection with error: \(error)")
+        print("Layer Client did lose connection with error: \(error)")
     }
 
     func layerClientDidDisconnect(client: LYRClient) {
-        println("Layer Client did disconnect")
+        print("Layer Client did disconnect")
     }
 
     // MARK - First Run Notification

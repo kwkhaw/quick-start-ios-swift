@@ -60,7 +60,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         if layerClient == nil {
-            var alert = UIAlertController(title: "\u{1F625}", message: "To correctly use this project you need to replace LAYER_APP_ID in AppDelegate.swift (line 6) with your App ID from developer.layer.com.", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert = UIAlertController(title: "\u{1F625}", message: "To correctly use this project you need to replace LAYER_APP_ID in AppDelegate.swift (line 6) with your App ID from developer.layer.com.", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { _ in abort() } ))
             presentViewController(alert, animated: true, completion: nil)
             return
@@ -121,34 +121,45 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         // Fetches all conversations between the authenticated user and the supplied participant
         // For more information about Querying, check out https://developer.layer.com/docs/integration/ios#querying
         
-        var query: LYRQuery = LYRQuery(queryableClass: LYRConversation.self)
+        let query: LYRQuery = LYRQuery(queryableClass: LYRConversation.self)
         
         query.predicate = LYRPredicate(property: "participants", predicateOperator: LYRPredicateOperator.IsEqualTo, value: [ LQSCurrentUserID, LQSParticipantUserID, LQSParticipant2UserID ] as AnyObject)
         query.sortDescriptors = [ NSSortDescriptor(key: "createdAt", ascending: false) ]
         
         var error: NSError? = nil
-        var conversations: NSOrderedSet? = layerClient?.executeQuery(query, error: &error)
+        var conversations: NSOrderedSet?
+        do {
+            conversations = try layerClient?.executeQuery(query)
+        } catch let error1 as NSError {
+            error = error1
+            conversations = nil
+        }
         
 
         if conversations == nil || conversations!.count <= 0 {
             var convError: NSError? = nil
-            self.conversation = layerClient!.newConversationWithParticipants(NSSet(array: [LQSParticipantUserID, LQSParticipant2UserID]) as Set<NSObject>, options: nil, error: &convError)
+            do {
+                self.conversation = try layerClient!.newConversationWithParticipants(NSSet(array: [LQSParticipantUserID, LQSParticipant2UserID]) as! Set<NSObject>, options: nil)
+            } catch let error as NSError {
+                convError = error
+                self.conversation = nil
+            }
             if self.conversation == nil {
-                println("New Conversation creation failed: \(convError)")
+                print("New Conversation creation failed: \(convError)")
             }
         }
         
         if error == nil {
-            println("\(conversations!.count) conversations with participants \([ LQSCurrentUserID, LQSParticipantUserID, LQSParticipant2UserID ])")
+            print("\(conversations!.count) conversations with participants \([ LQSCurrentUserID, LQSParticipantUserID, LQSParticipant2UserID ])")
         } else {
-            println("Query failed with error \(error)")
+            print("Query failed with error \(error)")
         }
         
         
         // Retrieve the last conversation
         if conversations != nil && conversations!.count > 0 {
             self.conversation = conversations!.lastObject as! LYRConversation?
-            println("Get last conversation object: \(conversation!.identifier)")
+            print("Get last conversation object: \(conversation!.identifier)")
             // setup query controller with messages from last conversation
             if queryController == nil {
                 setupQueryController()
@@ -169,15 +180,25 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         queryController!.delegate = self
         
         var error: NSError?
-        let success = queryController!.execute(&error)
+        let success: Bool
+        do {
+            try queryController!.execute()
+            success = true
+        } catch let error1 as NSError {
+            error = error1
+            success = false
+        }
         if success {
-            println("Query fetched \(queryController!.numberOfObjectsInSection(0)) message objects")
+            print("Query fetched \(queryController!.numberOfObjectsInSection(0)) message objects")
         } else {
-            println("Query failed with error: \(error)")
+            print("Query failed with error: \(error)")
         }
         
         tableView.reloadData()
-        conversation!.markAllMessagesAsRead(nil)
+        do {
+            try conversation!.markAllMessagesAsRead()
+        } catch _ {
+        }
     }
     
     // MARK:- Table View Data Source Methods
@@ -192,7 +213,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
             return 0
         }
         let rows = queryController!.numberOfObjectsInSection(UInt(0))
-        println("Rows \(rows)")
+        print("Rows \(rows)")
         return Int(rows)
     }
 
@@ -257,13 +278,16 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
                     timestampText = "Read: \(dateFormatter.stringFromDate(message!.receivedAt))"
                 
                 case LYRRecipientStatus.Invalid:
-                    println("Participant: Invalid")
+                    print("Participant: Invalid")
 
                 default:
                     break
             }
         } else {
-            message!.markAsRead(nil)
+            do {
+                try message!.markAsRead()
+            } catch _ {
+            }
             timestampText = "Received: \(dateFormatter.stringFromDate(message!.sentAt))"
         }
         
@@ -318,7 +342,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         //if we are sending an image
         if (sendingImage) {
             let image: UIImage = self.photo! //get photo
-            let imageData: NSData = UIImagePNGRepresentation(image)
+            let imageData: NSData = UIImagePNGRepresentation(image)!
             messagePart = LYRMessagePart(MIMEType: MIMETypeImagePNG, data: imageData)
             sendingImage = false
         } else {
@@ -328,18 +352,25 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         
         // Creates and returns a new message object with the given conversation and array of message parts
         let pushMessage = "\(layerClient?.authenticatedUserID) says \(messageText)"
-        let message: LYRMessage = layerClient!.newMessageWithParts([messagePart!], options: [LYRMessageOptionsPushNotificationAlertKey: pushMessage], error: nil)
+        let message: LYRMessage? = try? layerClient!.newMessageWithParts([messagePart!], options: [LYRMessageOptionsPushNotificationAlertKey: pushMessage])
         
         // Sends the specified message
         var error: NSError?
-        let success = conversation!.sendMessage(message, error: &error)
+        let success: Bool
+        do {
+            try conversation!.sendMessage(message)
+            success = true
+        } catch let error1 as NSError {
+            error = error1
+            success = false
+        }
         if success {
             // If the message was sent by the participant, show the sentAt time and mark the message as read
-            println("Message queued to be sent: \(messageText)")
+            print("Message queued to be sent: \(messageText)")
             inputTextView.text = ""
             
         } else {
-            println("Message send failed: \(error)")
+            print("Message send failed: \(error)")
         }
         self.photo = nil
         
@@ -354,7 +385,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         return true
     }
 
-    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
         // If user shakes the phone, change the navbar color and set metadata
         if motion == UIEventSubtype.MotionShake {
             let newNavBarBackgroundColor: UIColor = LSRandomColor()
@@ -372,7 +403,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
                                                 LQSGreenBackgroundColor : "\(greenFloat)",
                                                 LQSBlueBackgroundColor : "\(blueFloat)"]
                                         ]
-            conversation!.setValuesForMetadataKeyPathsWithDictionary(metadata as [NSObject : AnyObject], merge: true)
+            conversation!.setValuesForMetadataKeyPathsWithDictionary(metadata as! [NSObject : AnyObject], merge: true)
         }
     }
 
@@ -419,7 +450,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
         }
         
         let limit: Int = LQSMaxCharacterLimit
-        return !(count(inputTextView.text) > limit && count(text) > range.length)
+        return !(inputTextView.text.characters.count > limit && text.characters.count > range.length)
     }
 
     // MARK:- Query Controller Delegate Methods
@@ -440,8 +471,6 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
             case LYRQueryControllerChangeType.Delete:
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-            default:
-                break
         }
     }
 
@@ -509,8 +538,12 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
     func numberOfMessages() -> Int {
         let message: LYRQuery = LYRQuery(queryableClass: LYRMessage.self)
         
-        var error: NSError?
-        let messageList: NSOrderedSet? = layerClient?.executeQuery(message, error: &error)
+        let messageList: NSOrderedSet?
+        do {
+            messageList = try layerClient?.executeQuery(message)
+        } catch _ {
+            messageList = nil
+        }
         
         return messageList != nil ? messageList!.count : 0
     }
@@ -533,20 +566,30 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
     func clearMessages() {
         let message: LYRQuery = LYRQuery(queryableClass: LYRMessage.self)
         
-        var error: NSError?
-        let messageList: NSOrderedSet = layerClient!.executeQuery(message, error: &error)
+        let messageList: NSOrderedSet?
+        do {
+            messageList = try layerClient!.executeQuery(message)
+        } catch _ {
+            messageList = nil
+        }
         
-        if messageList.count > 0 {
+        if messageList?.count > 0 {
             
-            for (var i = 0; i < messageList.count; i++) {
-                let message: LYRMessage = messageList.objectAtIndex(i) as! LYRMessage
-                let success = message.delete(LYRDeletionMode.AllParticipants, error: &error)
-                println("Message is: \(message.parts)")
+            for (var i = 0; i < messageList?.count; i++) {
+                let message: LYRMessage = messageList?.objectAtIndex(i) as! LYRMessage
+                let success: Bool
+                do {
+                    try message.delete(LYRDeletionMode.AllParticipants, error: ())
+                    success = true
+                } catch _ {
+                    success = false
+                }
+                print("Message is: \(message.parts)")
                 
                 if success {
-                    println("The message has been deleted")
+                    print("The message has been deleted")
                 }else {
-                    println("Error")
+                    print("Error")
                 }
             }
             
@@ -566,7 +609,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
 
     // MARK: - UIImagePickerControllerDelegate
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         self.sendingImage = true
         var image = info[UIImagePickerControllerEditedImage] as! UIImage!
         
@@ -582,7 +625,7 @@ class LQSViewController: UIViewController, UITextViewDelegate, LYRQueryControlle
 
 
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        println("Cancel")
+        print("Cancel")
         dismissViewControllerAnimated(true, completion: nil)
         self.sendingImage = false
     }

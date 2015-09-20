@@ -9,13 +9,15 @@ class LQSAnnouncementsTableViewController: UITableViewController, UIAlertViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var error: NSError? = nil
         let query = LYRQuery(queryableClass: LYRAnnouncement.self)
         query.sortDescriptors = [ NSSortDescriptor(key: "position", ascending: false) ]
         
         queryController = layerClient!.queryControllerWithQuery(query)
         queryController!.delegate = self
-        queryController!.execute(&error)
+        do {
+            try queryController!.execute()
+        } catch _ {
+        }
         
         if queryController!.count() <= 0 {
             let emptyView: UIView = UIView(frame: CGRectMake(0, 0, 320, 100))
@@ -64,7 +66,10 @@ class LQSAnnouncementsTableViewController: UITableViewController, UIAlertViewDel
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let announcement: LYRAnnouncement = queryController!.objectAtIndexPath(indexPath) as! LYRAnnouncement
-        announcement.markAsRead(nil)
+        do {
+            try announcement.markAsRead()
+        } catch _ {
+        }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
@@ -117,8 +122,6 @@ class LQSAnnouncementsTableViewController: UITableViewController, UIAlertViewDel
                 tableView.moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
             case LYRQueryControllerChangeType.Update:
                 tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-            default:
-                break
         }
     }
 
